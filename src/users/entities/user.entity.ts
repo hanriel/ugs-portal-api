@@ -18,5 +18,9 @@ export class UserEntity {
     @ManyToOne(() => RoleEntity, (role) => role.roles)
     role: RoleEntity
 
-    
+    @Column()
+    login: string
+
+    @Column()
+    password: string
 }

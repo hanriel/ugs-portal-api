@@ -8,6 +8,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './users/entities/user.entity';
 import { RoleEntity } from './roles/entities/role.entity';
 import { GroupEntity } from './groups/entities/group.entity';
+import { AuthModule } from './auth/auth.module';
+import { ScheduleModule } from './schedule/schedule.module';
+import { ScheduleEnity } from './schedule/entities/schedule.entity';
 
 @Module({
   imports: [
@@ -15,15 +18,17 @@ import { GroupEntity } from './groups/entities/group.entity';
     GroupsModule,
     RolesModule,
     TypeOrmModule.forRoot({
-      type: 'mariadb',
-      host: '192.168.87.254',
-      port: 6033,
-      username: 'root',
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'ugd_user',
       password: 'dhQFHz2g',
       database: 'ugs-portal',
-      entities: [UserEntity, RoleEntity, GroupEntity],
+      entities: [UserEntity, RoleEntity, GroupEntity, ScheduleEnity],
       synchronize: true,
     }),
+    AuthModule,
+    ScheduleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

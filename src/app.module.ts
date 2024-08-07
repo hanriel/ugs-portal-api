@@ -19,10 +19,10 @@ import { ScheduleEnity } from './schedule/entities/schedule.entity';
     RolesModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: '192.168.0.20',
       port: 3306,
-      username: 'ugd_user',
-      password: 'dhQFHz2g',
+      username: 'ugs-portal',
+      password: '0lA6h4HkIPnS',
       database: 'ugs-portal',
       entities: [UserEntity, RoleEntity, GroupEntity, ScheduleEnity],
       synchronize: true,

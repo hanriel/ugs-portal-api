@@ -8,7 +8,7 @@ async function bootstrap() {
   app.enableCors({ credentials: true, origin: true })
 
   const config = new DocumentBuilder()
-  .setTitle('УГС ПОРТАЛ')
+  .setTitle('УГС Портал')
   .setVersion('1.0')
   .build();
   const document = SwaggerModule.createDocument(app, config);

@@ -14,7 +14,7 @@ export class GroupsService {
   ) {}
 
   create(createGroupDto: CreateGroupDto) {
-    return 'This action adds a new group';
+    return this.repository.insert(createGroupDto);
   }
 
   findAll() {
@@ -22,11 +22,11 @@ export class GroupsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} group`;
+    return this.repository.findOneBy({ id: id })
   }
 
   update(id: number, updateGroupDto: UpdateGroupDto) {
-    return `This action updates a #${id} group`;
+    return this.repository.update(id, updateGroupDto)
   }
 
   remove(id: number) {

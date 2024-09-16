@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
@@ -14,16 +15,17 @@ import { ScheduleEnity } from './schedule/entities/schedule.entity';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     UsersModule,
     GroupsModule,
     RolesModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '192.168.0.20',
-      port: 3306,
-      username: 'ugs-portal',
-      password: '0lA6h4HkIPnS',
-      database: 'ugs-portal',
+      host: process.env.MYSQL_HOST,
+      port: parseInt(process.env.MYSQL_PORT, 10) || 3306,
+      username: process.env.MYSQL_USER,
+      password: process.env.MYSQL_PASSWORD,
+      database: process.env.MYSQL_BASE,
       entities: [UserEntity, RoleEntity, GroupEntity, ScheduleEnity],
       synchronize: true,
     }),

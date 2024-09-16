@@ -1,6 +1,9 @@
 FROM node:18-alpine
 LABEL authors="Hanriel"
 
+ARG NODE_ENV=production
+ENV NODE_ENV=$NODE_ENV
+
 WORKDIR /user/src/app
 
 COPY . .

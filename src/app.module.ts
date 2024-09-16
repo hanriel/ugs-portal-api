@@ -15,7 +15,9 @@ import { ScheduleEnity } from './schedule/entities/schedule.entity';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: ['.env', '.env.production'],
+    }),
     UsersModule,
     GroupsModule,
     RolesModule,

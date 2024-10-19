@@ -22,7 +22,7 @@ import { ScheduleEnity } from './schedule/entities/schedule.entity';
     GroupsModule,
     RolesModule,
     TypeOrmModule.forRoot({
-      type: 'mysql2',
+      type: 'mysql',
       host: process.env.MYSQL_HOST,
       port: parseInt(process.env.MYSQL_PORT, 10) || 3306,
       username: process.env.MYSQL_USER,

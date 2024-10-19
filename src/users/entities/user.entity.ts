@@ -23,4 +23,19 @@ export class UserEntity {
 
     @Column()
     password: string
+
+    @Column()
+    email: string
+
+    @Column({ type: 'timestamp'})
+    birth_date: Date
+
+    @Column()
+    sex: boolean
+    
+    @Column()
+    telephone: string
+
+    @Column()
+    address: string
 }

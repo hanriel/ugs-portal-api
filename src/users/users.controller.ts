@@ -9,8 +9,30 @@ import { ApiTags } from '@nestjs/swagger';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+
+  @Get()
+  findAll() {
+    return this.usersService.findAll();
+  }
+
+  @Get('teachers')
+  getTeachers() {
+    return this.usersService.findAllTeachers();
+  }
+
+  @Get('students')
+  getStudents() {
+    return this.usersService.findAllStudents();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.usersService.findById(+id);
+  }
+
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
+
 }

@@ -28,4 +28,35 @@ export class UsersService {
     // return this.repository.save(dto)
   }
 
+  findAll() {
+    return this.repository.find({
+      // select: {
+      //   id: true,
+      //   first_name: true,
+      //   last_name: true,
+      //   login: true,
+      // },
+    });
+  }
+
+  findAllTeachers() {
+    return this.repository.find({
+      where: {
+        role: {
+          id: 2,
+        },
+      }
+    });
+  }
+
+  findAllStudents() {
+    return this.repository.find({
+      where: {
+        role: {
+          id: 1,
+        },
+      }
+    });
+  }
+
 }

@@ -18,7 +18,20 @@ export class GroupsService {
   }
 
   findAll() {
-    return this.repository.find();
+    return this.repository.find({
+      select: {
+        id: true,
+        label: true,
+        curator: {
+          id: true,
+          first_name: true,
+          last_name: true,
+        },
+      },
+      relations: {
+        curator: true,
+      },
+    });
   }
 
   findOne(id: number) {

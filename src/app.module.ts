@@ -20,7 +20,7 @@ import { PassportModule } from '@nestjs/passport';
     ConfigModule.forRoot({
       envFilePath: ['.env', '.env.production'],
     }),
-    PassportModule.register({ defaultStrategy: 'ldap'}),
+    PassportModule.register({ defaultStrategy: 'ldap' }),
     UsersModule,
     GroupsModule,
     RolesModule,

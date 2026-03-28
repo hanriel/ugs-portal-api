@@ -5,27 +5,22 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 @Injectable()
 export class LdapStrategy extends PassportStrategy(Strategy, 'ldap') {
   constructor() {
-    super(
-      {
-        server: {
-          url: process.env.LDAP_URL,
-          bindDN: process.env.LDAP_BIND_DN,
-          bindCredentials: process.env.LDAP_BIND_PW,
-          searchBase: process.env.LDAP_SEARCH_BASE,
-          searchFilter: '(sAMAccountName={{username}})',
-        },
+    super({
+      server: {
+        url: process.env.LDAP_URL,
+        bindDN: process.env.LDAP_BIND_DN,
+        bindCredentials: process.env.LDAP_BIND_PW,
+        searchBase: process.env.LDAP_SEARCH_BASE,
+        searchFilter: '(sAMAccountName={{username}})',
       },
-      (req, user, done) => {
-        console.log('LDAP Callback reached');
+      passReqToCallback: true,
     });
   }
 
-  async validate(user: any, done: Function) {
+  async validate(user: any): Promise<any> {
     if (!user) {
-      return done(new UnauthorizedException(), false);
+      throw new UnauthorizedException();
     }
-    // You can process the user object here (e.g., fetch more details from a local DB)
-    console.log('LDAP User:', user);
-    done(null, user);
+    return user;
   }
 }

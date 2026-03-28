@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from '@nestjs/passport';
-import passport from 'passport';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -13,8 +12,7 @@ export class AuthController {
   @UseGuards(AuthGuard('ldap'))
   @Post('login')
   @ApiBody({ type: LoginUserDto })
-  signIn(@Request() req) {
-    passport.authenticate('ldap', { session: false });
+  login(@Request() req) {
     return this.authService.login(req.user);
   }
 }

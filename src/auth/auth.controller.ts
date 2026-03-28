@@ -9,10 +9,10 @@ import { AuthGuard } from '@nestjs/passport';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(AuthGuard('ldap'))
   @Post('login')
+  @UseGuards(AuthGuard('ldap'))
   @ApiBody({ type: LoginUserDto })
-  login(@Request() req) {
+  async login(@Request() req) {
     return this.authService.login(req.user);
   }
 }

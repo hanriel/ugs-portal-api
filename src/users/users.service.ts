@@ -12,9 +12,9 @@ export class UsersService {
     private repository: Repository<UserEntity>,
   ) {}
 
-  async findByLogin(login: string) {
+  async findByLogin(ldapId: string) {
     return this.repository.findOneBy({
-      login,
+      ldapId,
     })
   }
 
@@ -22,10 +22,6 @@ export class UsersService {
     return this.repository.findOneBy({
       id,
     })
-  }
-
-  create(dto: CreateUserDto) {
-    // return this.repository.save(dto)
   }
 
   findAll() {
@@ -57,6 +53,20 @@ export class UsersService {
         },
       }
     });
+  }
+
+  findByLdapId(ldapId: any) {
+    return this.repository.findOneBy({
+      ldapId,
+    })
+  }
+
+  createFromLdap(user: any): any {
+    return this.repository.save(user);
+  }
+
+  updateFromLdap(user: any, ldapUser: any): any {
+    //return this.repository.update(ldapUser);
   }
 
 }

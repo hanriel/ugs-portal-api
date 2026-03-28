@@ -12,32 +12,27 @@ export class UserEntity {
     @Column()
     last_name: string
 
-    @Column()
+    @Column({ nullable: true })
     middle_name: string
 
     @ManyToOne(() => RoleEntity, (role) => role.roles)
     role: RoleEntity
 
     @Column()
-    login: string
+    ldapId: string
 
-    @Column()
-    password: string
-
-    @Column()
+    @Column({ nullable: true })
     email: string
 
-    @Column({ type: 'timestamp'})
+    @Column({ type: 'timestamp', nullable: true })
     birth_date: Date
 
-    @Column()
+    @Column({ nullable: true })
     sex: boolean
     
-    @Column()
+    @Column({ nullable: true })
     telephone: string
 
-    @Column()
+    @Column({ nullable: true })
     address: string
-  sAMAccountName: any;
-  dn: any;
 }

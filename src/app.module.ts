@@ -10,10 +10,14 @@ import { UserEntity } from './users/entities/user.entity';
 import { RoleEntity } from './roles/entities/role.entity';
 import { GroupEntity } from './groups/entities/group.entity';
 import { AuthModule } from './auth/auth.module';
+import { BranchesModule } from './branches/branches.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { ScheduleEnity } from './schedule/entities/schedule.entity';
 import { LdapStrategy } from './ldap.strategy';
 import { PassportModule } from '@nestjs/passport';
+import { BranchEntity } from './branches/entities/branches.entity';
+import { SpecialtiesModule } from './specialties/specialties.module';
+import { SpecialtyEntity } from './specialties/entities/specialty.entity';
 
 @Module({
   imports: [
@@ -22,8 +26,12 @@ import { PassportModule } from '@nestjs/passport';
     }),
     PassportModule.register({ defaultStrategy: 'ldap' }),
     UsersModule,
+    BranchesModule,
     GroupsModule,
     RolesModule,
+    AuthModule,
+    ScheduleModule,
+    SpecialtiesModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.MYSQL_HOST,
@@ -31,11 +39,9 @@ import { PassportModule } from '@nestjs/passport';
       username: process.env.MYSQL_USER,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_BASE,
-      entities: [UserEntity, RoleEntity, GroupEntity, ScheduleEnity],
+      entities: [UserEntity, RoleEntity, GroupEntity, ScheduleEnity, BranchEntity, SpecialtyEntity],
       synchronize: true,
     }),
-    AuthModule,
-    ScheduleModule,
   ],
   controllers: [AppController],
   providers: [AppService, LdapStrategy],

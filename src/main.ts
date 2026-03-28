@@ -5,12 +5,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: false });
 
-  app.enableCors({ credentials: true, origin: true })
+  app.enableCors({ credentials: true, origin: true });
 
   const config = new DocumentBuilder()
-  .setTitle('УГС Портал')
-  .setVersion('1.0')
-  .build();
+    .setTitle('УГС Портал')
+    .setVersion('1.0')
+    .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 

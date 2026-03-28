@@ -12,12 +12,15 @@ import { GroupEntity } from './groups/entities/group.entity';
 import { AuthModule } from './auth/auth.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { ScheduleEnity } from './schedule/entities/schedule.entity';
+import { LdapStrategy } from './ldap.strategy';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.env', '.env.production'],
     }),
+    PassportModule.register({ defaultStrategy: 'ldap'}),
     UsersModule,
     GroupsModule,
     RolesModule,
@@ -35,6 +38,7 @@ import { ScheduleEnity } from './schedule/entities/schedule.entity';
     ScheduleModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, LdapStrategy],
+  exports: [PassportModule.register({ defaultStrategy: 'ldap' })],
 })
 export class AppModule {}

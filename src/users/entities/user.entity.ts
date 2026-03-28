@@ -38,4 +38,6 @@ export class UserEntity {
 
     @Column()
     address: string
+  sAMAccountName: any;
+  dn: any;
 }

@@ -18,7 +18,6 @@ export class LdapStrategy extends PassportStrategy(Strategy, 'ldap') {
   }
 
   async validate(req: any, user: any) {
-    console.log('LDAP user object:', user);
     if (!user) {
       throw new UnauthorizedException();
     }

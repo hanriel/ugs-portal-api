@@ -24,14 +24,12 @@ export class AuthService {
         middle_name:  ldapUser.name.split(' ')[2],
         role: 1,
       };
-      // 3. Создаём нового пользователя
       user = await this.userService.createFromLdap(newUser);
     } else {
-      // 4. Обновляем данные существующего пользователя
       user = await this.userService.updateFromLdap(user, ldapUser);
     }
 
-    const payload = { sub: ldapUser.id, role: ldapUser.role, username: ldapUser.sAMAccountName, givenName: ldapUser.givenName };
+    const payload = { sub: ldapUser.id, role: ldapUser.role, username: ldapUser.sAMAccountName, name: ldapUser.givenName, email: ldapUser.mail };
     return {
       access_token: this.jwtService.sign(payload),
     };

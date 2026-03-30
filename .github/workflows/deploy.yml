@@ -32,5 +32,5 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true # Enable pushing the image
-        tags: ${{ vars.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
 

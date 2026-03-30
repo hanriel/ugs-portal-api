@@ -22,7 +22,7 @@ export class AuthService {
         first_name: ldapUser.name.split(' ')[0],
         last_name:  ldapUser.name.split(' ')[1],
         middle_name:  ldapUser.name.split(' ')[2],
-        role: 1,
+        role: 2,
       };
       user = await this.userService.createFromLdap(newUser);
     } else {

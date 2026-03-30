@@ -6,11 +6,15 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { LdapStrategy } from 'src/ldap.strategy';
 import { JwtStrategy } from 'src/jwt.strategy';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     PassportModule,
     UsersModule,
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,

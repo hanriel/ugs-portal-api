@@ -29,7 +29,8 @@ export class GroupsController {
 
   @Get()
   findAll() {
-    return this.groupsService.findAll();
+    //return this.groupsService.findAll();
+    return this.groupsService.getOUList('OU=Students,DC=pmk,DC=pmkedu,DC=pro');
   }
 
   @Get(':id')

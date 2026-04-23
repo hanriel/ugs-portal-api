@@ -1,5 +1,6 @@
 import { BranchEntity } from "src/branches/entities/branches.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { GroupEntity } from "src/groups/entities/group.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('specialty')
 export class SpecialtyEntity {
@@ -9,6 +10,13 @@ export class SpecialtyEntity {
     @Column()
     name: string
 
-    @ManyToOne(() => BranchEntity, (branch) => branch.id)
-    brach: BranchEntity
+    @ManyToOne(() => BranchEntity, (branch) => branch.specialties)
+    @JoinColumn({ name: 'branch_id' })
+    branch: BranchEntity;
+
+    @Column({ name: 'branch_id' })
+    branchId: number;
+
+    @OneToMany(() => GroupEntity, (group) => group.specialty)
+    groups: GroupEntity[];
 }

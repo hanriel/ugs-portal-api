@@ -3,6 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SpecialtiesService } from './specialties.service';
 import { CreateSpecialityDto } from './dto/create-specialty.dto';
+import { UpdateSpecialityDto } from './dto/update-specialty.dto';
 
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
@@ -27,7 +28,7 @@ export class SpecialtiesController {
       }
     
       @Patch(':id')
-      update(@Param('id') id: string, @Body() updateSpecialityDto: CreateSpecialityDto) {
+      update(@Param('id') id: string, @Body() updateSpecialityDto: UpdateSpecialityDto) {
         return this.specialtiesService.update(+id, updateSpecialityDto);
       }
     

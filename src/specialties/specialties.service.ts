@@ -3,6 +3,7 @@ import { CreateSpecialityDto } from './dto/create-specialty.dto';
 import { SpecialtyEntity } from './entities/specialty.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UpdateSpecialityDto } from './dto/update-specialty.dto';
 
 @Injectable()
 export class SpecialtiesService {
@@ -12,8 +13,8 @@ export class SpecialtiesService {
       private repository: Repository<SpecialtyEntity>,
     ) {}
   
-    create(createBranchDto: CreateSpecialityDto) {
-      return this.repository.insert(createBranchDto);
+    create(createSpecialityDto: CreateSpecialityDto) {
+      return this.repository.insert(createSpecialityDto);
     }
   
     findAll() {
@@ -24,8 +25,8 @@ export class SpecialtiesService {
       return this.repository.findOneBy({ id: id })
     }
   
-    update(id: number, updateBranchDto: CreateSpecialityDto) {
-      return this.repository.update(id, updateBranchDto)
+    update(id: number, updateSpecialityDto: UpdateSpecialityDto) {
+      return this.repository.update(id, updateSpecialityDto)
     }
   
     remove(id: number) {

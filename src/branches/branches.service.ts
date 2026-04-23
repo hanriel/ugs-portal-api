@@ -4,6 +4,8 @@ import { UpdateBranchDto } from './dto/update-branch.dto';
 import { BranchEntity } from './entities/branches.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { SpecialtyEntity } from 'src/specialties/entities/specialty.entity';
+import { GroupEntity } from 'src/groups/entities/group.entity';
 
 @Injectable()
 export class BranchesService {
@@ -17,21 +19,46 @@ export class BranchesService {
     return this.repository.insert(createBranchDto);
   }
 
-  findAll() {
-    return this.repository.find({
-      select: {
-        id: true,
-        name: true,
-        supervisor: {
-          id: true,
-          first_name: true,
-          last_name: true,
-        },
-      },
-      relations: {
-        supervisor: true,
-      },
-    });
+  async findAll() {
+    const raw = await this.repository
+    .createQueryBuilder('branch')
+    .leftJoin('branch.supervisor', 'supervisor')
+    .select([
+      'branch.id',
+      'branch.name',
+      'supervisor.id',
+      'supervisor.first_name',
+      'supervisor.last_name',
+      'supervisor.middle_name',
+    ])
+    .addSelect((subQuery) => {
+      return subQuery
+        .select('COUNT(specialty.id)')
+        .from(SpecialtyEntity, 'specialty')
+        .where('specialty.branch_id = branch.id');
+    }, 'specialtiesCount')
+    .addSelect((subQuery) => {
+      return subQuery
+        .select('COUNT(group.id)')
+        .from(GroupEntity, 'group')
+        .innerJoin('group.specialty', 'specialty')
+        .where('specialty.branch_id = branch.id');
+    }, 'groupsCount')
+    .getRawMany();
+
+  // Преобразование сырых данных в нужную структуру
+  return raw.map((row) => ({
+    id: row.branch_id,
+    name: row.branch_name,
+    supervisor: {
+      id: row.supervisor_id,
+      first_name: row.supervisor_first_name,
+      last_name: row.supervisor_last_name,
+      middle_name: row.supervisor_middle_name,
+    },
+    specialtiesCount: Number(row.specialtiesCount) || 0,
+    groupsCount: Number(row.groupsCount) || 0,
+  }));
   }
 
   findOne(id: number) {

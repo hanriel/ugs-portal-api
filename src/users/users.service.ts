@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from './entities/user.entity';
+import { UserEntity, UserRole } from './entities/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -12,9 +12,9 @@ export class UsersService {
     private repository: Repository<UserEntity>,
   ) {}
 
-  async findByLogin(ldapId: string) {
+  async findByLogin(username: string) {
     return this.repository.findOneBy({
-      ldapId,
+      username,
     })
   }
 
@@ -38,9 +38,7 @@ export class UsersService {
   findAllTeachers() {
     return this.repository.find({
       where: {
-        role: {
-          id: 2,
-        },
+        role: UserRole.TEACHER,
       }
     });
   }
@@ -48,16 +46,14 @@ export class UsersService {
   findAllStudents() {
     return this.repository.find({
       where: {
-        role: {
-          id: 1,
-        },
+        role: UserRole.STUDENT,
       }
     });
   }
 
-  findByLdapId(ldapId: any) {
+  findByLdapId(username: any) {
     return this.repository.findOneBy({
-      ldapId,
+      username
     })
   }
 

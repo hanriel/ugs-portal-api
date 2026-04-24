@@ -11,44 +11,44 @@ export enum UserRole {
 @Index("IDX_USER_ROLE_ACTIVE",['role', 'isActive'])
 @TableInheritance({ column: { type: 'enum', name: 'role', enum: UserRole } })
 export class UserEntity {
-    @PrimaryGeneratedColumn()
-    id: number
+  @PrimaryGeneratedColumn()
+  id: number
 
-    // ---- Данные из LDAP (синхронизируются) ----
-    @Column({ type: 'text', unique: true })
-    dn: string; // distinguishedName
- 
-    @Column({ type: 'varchar', length: 50, unique: true })
-    @Index("IDX_USER_USERNAME")
-    username: string; // sAMAccountName
-    
-    @Column()
-    first_name: string    
+  // ---- Данные из LDAP (синхронизируются) ----
+  @Column({ type: 'text', unique: true })
+  dn: string; // distinguishedName
 
-    @Column()
-    last_name: string
+  @Column({ type: 'varchar', length: 50, unique: true })
+  @Index("IDX_USER_USERNAME")
+  username: string; // sAMAccountName
+  
+  @Column()
+  first_name: string;
 
-    @Column({ nullable: true })
-    middle_name: string
+  @Column()
+  last_name: string
 
-    @Column({ nullable: true })
-    email: string
+  @Column({ nullable: true })
+  middle_name: string
 
-    @Column({ type: 'blob', unique: true, nullable: true })
-    @Index("IDX_USER_LDAP_GUID", { unique: true })
-    ldapGuid: Buffer; // objectGUID из Active Directory
+  @Column({ nullable: true })
+  email: string
 
-    // ---- Общие служебные поля ----
-    @Column({ type: 'boolean', default: true })
-    isActive: boolean;
+  @Column({ type: 'blob', unique: true, nullable: true })
+  @Index("IDX_USER_LDAP_GUID", { unique: true })
+  ldapGuid: Buffer; // objectGUID из Active Directory
 
-    @CreateDateColumn()
-    createdAt: Date;
+  // ---- Общие служебные поля ----
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    // Роль определяется автоматически через дискриминатор
-    @Column({ type: 'enum', enum: UserRole })
-    role: UserRole;
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  // Роль определяется автоматически через дискриминатор
+  @Column({ type: 'enum', enum: UserRole })
+  role: UserRole;
 }

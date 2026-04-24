@@ -18,22 +18,37 @@ export class GroupsService {
     return this.repository.insert(createGroupDto);
   }
 
-  findAll() {
-    return this.repository.find({
-      select: {
-        id: true,
-        label: true,
-        curator: {
-          id: true,
-          first_name: true,
-          last_name: true,
-          middle_name: true,
-        },
+
+  async findAll() {
+    const raw = await this.repository
+      .createQueryBuilder('group')
+      .leftJoin('group.curator', 'curator')
+      .leftJoin('group.students', 'student')
+      .select([
+        'group.id',
+        'group.label',
+        'group.labelRU',
+        'curator.id',
+        'curator.first_name',
+        'curator.last_name',
+        'curator.middle_name',
+      ])
+      .addSelect('COUNT(student.id)', 'studentCount')
+      .groupBy('group.id, curator.id')
+      .getRawMany();
+
+    return raw.map(row => ({
+      id: row.group_id,
+      label: row.group_label,
+      labelRU: row.group_labelRU,
+      curator: {
+        id: row.curator_id,
+        first_name: row.curator_first_name,
+        last_name: row.curator_last_name,
+        middle_name: row.curator_middle_name,
       },
-      relations: {
-        curator: true,
-      },
-    });
+      studentCount: Number(row.studentCount),
+    }));
   }
 
   findOne(id: number) {

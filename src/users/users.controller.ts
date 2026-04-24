@@ -1,13 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { QueryStudentsDto } from './dto/query-students.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
 
   @Get()
   findAll() {
@@ -20,8 +22,8 @@ export class UsersController {
   }
 
   @Get('students')
-  getStudents() {
-    return this.usersService.findAllStudents();
+  getStudents(@Query() query: QueryStudentsDto) {
+    return this.usersService.findAllStudents(query);
   }
 
   @Get(':id')

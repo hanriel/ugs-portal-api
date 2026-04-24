@@ -2,8 +2,16 @@ import { CurriculumEntity } from "src/curriculums/entities/curriculum.entity";
 import { SpecialtyEntity } from "src/specialties/entities/specialty.entity";
 import { StudentEntity } from "src/users/entities/student.entity";
 import { TeacherEntity } from "src/users/entities/teacher.entity";
-import { UserEntity } from "src/users/entities/user.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('groups')
 export class GroupEntity {
@@ -16,6 +24,9 @@ export class GroupEntity {
 
     @Column()
     label: string
+
+    @Column()
+    labelRU: string
 
     // LDAP objectGUID в бинарном виде (16 байт)
     @Column({ type: 'blob', unique: true, nullable: true })

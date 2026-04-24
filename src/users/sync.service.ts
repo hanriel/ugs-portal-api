@@ -242,8 +242,8 @@ export class SyncService {
         // Разбор displayName на first_name и last_name
         const displayName = ldapUser.displayName || '';
         const nameParts = displayName.split(' ');
-        user.first_name = nameParts[0] || '';
-        user.last_name = nameParts[1] || '';
+        user.last_name = nameParts[0] || '';
+        user.first_name = nameParts[1] || '';
         user.middle_name = nameParts[2] || '';
 
         user.email = ldapUser.mail || null;
@@ -447,7 +447,7 @@ private extractGuid(guid: any): Buffer | null {
     // Если бинарный буфер слишком короткий, пробуем Base64
     try {
       const base64Buffer = Buffer.from(guid, 'base64');
-      this.logger.debug(`Base64 buffer length: ${base64Buffer.length}`);
+        this.logger.debug(`Base64 buffer length: ${base64Buffer.length}`);
       if (base64Buffer.length >= 8) {
         return base64Buffer;
       }

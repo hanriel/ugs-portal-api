@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity, UserRole } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
+import { QueryStudentsDto } from './dto/query-students.dto';
 
 @Injectable()
 export class UsersService {
@@ -43,12 +43,41 @@ export class UsersService {
     });
   }
 
-  findAllStudents() {
-    return this.repository.find({
-      where: {
-        role: UserRole.STUDENT,
-      }
-    });
+  async findAllStudents(query: QueryStudentsDto) {
+    const { page = 1, limit = 40, search, sortBy, sortOrder = 'asc' } = query;
+
+    const queryBuilder = this.repository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.group', 'group')
+      .where('user.role = :role', { role: UserRole.STUDENT });
+
+    if (search) {
+      queryBuilder.andWhere(
+        `(LOWER(user.first_name) LIKE LOWER(:search) OR
+          LOWER(user.last_name) LIKE LOWER(:search) OR
+          LOWER(user.email) LIKE LOWER(:search))`,
+        { search: `%${search}%` }
+      );
+    }
+
+    // сортировка и пагинация остаются без изменений
+    const allowedSortFields = ['first_name', 'last_name', 'email'];
+    if (sortBy && allowedSortFields.includes(sortBy)) {
+      queryBuilder.orderBy(
+        `user.${sortBy}`,
+        sortOrder.toUpperCase() as 'ASC' | 'DESC',
+      );
+    } else {
+      queryBuilder.orderBy('user.last_name', 'ASC');
+    }
+
+    const [data, total] = await queryBuilder
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
+
+    const totalPages = Math.ceil(total / limit);
+    return { data, total, totalPages, page, limit };
   }
 
   findByLdapId(username: any) {
